@@ -6,10 +6,10 @@ const jwt = require('jsonwebtoken');
 const secrets = require('./secrets');
 
 module.exports = (req, res, next) => {
-  const token = req.header.authorization;
+  const token = req.headers.authorization;
 
   if(token){
-    jwt.verify(token,secrets.jwtSecret,(err, decodedToken) => {
+    jwt.verify(token, secrets.jwtSecret, (err, decodedToken) => {
       if(err){
         res.status(500).json({ message: 'something went wrong' });
       } else {

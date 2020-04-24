@@ -15,7 +15,7 @@ router.post('/register', (req, res) => {
 
   Users.add(user)
     .then(addedUser =>{
-      res.status(201).json(addedUser);
+      res.status(201).json({message: 'New user was added successfully'});
     })
     .catch(err => {
       console.log(err)
@@ -29,17 +29,17 @@ router.post('/login', (req, res) => {
   Users.findBy({username})
   .first()
   .then(foundUser => {
-    if(user && bcrypt.compareSync(password, user.password)){
+    if(foundUser && bcrypt.compareSync(password, foundUser.password)){
         const token = generateToken(foundUser);
         res.status(200).json({message: 'Welcome!', token: token})
 
     } else {
       res.status(401).json({ message: 'Invalid Credentials' });
       }
-    })
-    .catch(error => {
-      res.status(500).json(error);
-    });
+  })
+  .catch(error => {
+    res.status(500).json(error);
+  });
 });
 
 function generateToken(user){
@@ -53,6 +53,7 @@ function generateToken(user){
   const options = {
     expiresIn: '1h'
   };
+  return jwt.sign(payload,secret,options);
 };
 
 module.exports = router;
