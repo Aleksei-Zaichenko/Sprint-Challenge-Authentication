@@ -35,7 +35,7 @@ describe("POST /api/auth", function () {
 
   describe("/login", function () {
 
-    it("should return status code: 200", function () {
+    it("provided right credentials, should return status code: 200", function () {
       // make a POST request to /register endpoint on the server
       const user ={username: 'Briana', password: 'No'}
 
@@ -48,7 +48,7 @@ describe("POST /api/auth", function () {
         });
     });
 
-    it("should return 201", function () {
+    it("provided wrong credentials, should return status code: 401", function () {
       // make a POST request to /register endpoint on the server
       return request(server)
         .post("/api/auth/login")
